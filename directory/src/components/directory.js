@@ -82,7 +82,18 @@ export default class Users extends Component {
       }  else {
         console.log(window.location.pathname)
         console.log(link, "In else")
-        return <h2>Your profile</h2>
+        return (
+          <div>
+            <Card>
+              <Card.Body>
+                <Link className="navbar-brand">Personal</Link>
+                <Link className="navbar-brand">Educational</Link>
+                <Link className="navbar-brand">Social</Link>
+              </Card.Body>  
+            </Card>
+            <h2>Your profile</h2>
+          </div>
+          )
       }
   }  
 
