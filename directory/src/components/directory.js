@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import { Card, Navbar, Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import axios from "axios";
 
-const brow = require("../browse");
+// const brow = require("../browse");
 
 export default class Users extends Component {
   constructor() {
@@ -17,59 +12,42 @@ export default class Users extends Component {
     this.state = {
       data: [],
       query: "",
-      name: "vamsi",
-      email: "nunnavamsikrishna1998@gmail.com",
-      LinkedIn: "https://www.linkedin.com/in/vamsikrishna-nunna/",
-      collage: "rvr&jc collage of engineering",
+      firstName: "",
+      Email: "",
+      // LinkedIn: "https://www.linkedin.com/in/vamsikrishna-nunna/",
+      // collage: "rvr&jc collage of engineering",
       filteredData: [],
     };
     this.MyProfile = this.MyProfile.bind(this);
   }
 
   componentDidMount() {
-    // const result = brow.browse();
-    // console.log(`The result is: ${result}`);
-    // fetch(`${result}`)
-    fetch("https://reactnative.dev/movies.json")
-      .then((Response) => Response.json())
-      .then((findresponse) => {
-        this.setState({
-          data: findresponse.movies,
-          filteredData: findresponse.movies,
+    var self = this;
+    axios
+      .get("http://localhost:3001/getadd")
+      .then(function (response) {
+        console.log(response.data.Items, "        qwerty");
+        self.setState({
+          data: response.data.Items,
+          filteredData: response.data.Items,
         });
+        console.log(self.state.data, "   ghjkl");
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   }
 
   handleChange = (event) => {
     const query = event.target.value;
-    console.log(query);
+    console.log(query, " in handle change++++++++++++");
     const mData = this.state.data.filter((val) =>
-      String(val.title).toLowerCase().includes(query.toLowerCase())
+      String(val.Email).toLowerCase().includes(query.toLowerCase())
     );
     console.log(mData);
     this.setState({
       filteredData: mData,
     });
-  };
-
-  UserTo = () => {
-    // const id = this.data-value
-    // console.log(id)
-    // const arr = this.state.data.filter(val => String(val.title).toLowerCase() === String(id).toLowerCase());
-    // this.state.filteredData = arr
-    // console.log(this.state.filteredData)
-
-    return (
-      <div>
-        <div className="myStyle">
-          {this.state.filteredData.map((i) => (
-            <div>
-              <h2>{i.title}</h2>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
   };
 
   MyProfile = () => {
@@ -78,17 +56,17 @@ export default class Users extends Component {
     var link = window.location.pathname.split("/");
     console.log(link);
     if (link.length > 2) {
-      var link1 = link[2].split("_").join(" ");
+      var link1 = link[2];
       console.log(link1, "%%%%%%%%%%%%%");
       const userdata = this.state.filteredData.filter(
-        (val) => String(val.title) === link1
+        (val) => String(val.Email) === link1
       );
       return (
         <div>
           <div className="myStyle">
             {userdata.map((i) => (
               <div>
-                <h2>{i.title}</h2>
+                <h2>{i.Email}</h2>
               </div>
             ))}
           </div>
@@ -97,6 +75,11 @@ export default class Users extends Component {
     } else {
       console.log(window.location.pathname);
       console.log(link, "In else");
+      const email = "hriday@gmail.com";
+      const userdata = this.state.filteredData.filter(
+        (val) => String(val.Email) === email
+      );
+      this.state.filteredData = userdata;
       return (
         <div>
           <Router>
@@ -129,14 +112,20 @@ export default class Users extends Component {
       <div>
         <h2>Personal</h2>
         <Button onClick={this.Edit}>Edit</Button>
-
-        <form style={{ textAlign: "center" }}>
+        {this.state.filteredData.map((i) => (
+          <div>
+            <p>{i.firstName}</p>
+            <p>{i.lastName}</p>
+            <p>{i.Email}</p>
+          </div>
+        ))}
+        {/* <form style={{ textAlign: "center" }}>
           <label>
             name:
             <input
               type="text"
               name="name"
-              value={this.state.name}
+              value={this.firstName}
               onChange={this.change}
               style={{ padding: "10px", textAlign: "center" }}
             />
@@ -152,7 +141,7 @@ export default class Users extends Component {
               style={{ padding: "10px", textAlign: "center" }}
             />
           </label>
-        </form>
+        </form> */}
       </div>
     );
   };
@@ -162,8 +151,14 @@ export default class Users extends Component {
       <div>
         <h2>Educational</h2>
         <Button onClick={this.Edit}>Edit</Button>
-
-        <form style={{ textAlign: "center" }}>
+        {this.state.filteredData.map((i) => (
+          <div>
+            <p>{i.firstName}</p>
+            <p>{i.lastName}</p>
+            <p>{i.Email}</p>
+          </div>
+        ))}
+        {/* <form style={{ textAlign: "center" }}>
           <label>
             collage:
             <input
@@ -174,7 +169,7 @@ export default class Users extends Component {
               style={{ padding: "10px", textAlign: "center" }}
             />
           </label>
-        </form>
+        </form> */}
       </div>
     );
   };
@@ -233,10 +228,12 @@ export default class Users extends Component {
               >
                 <Card.Body>
                   <Card.Title>
-                    <p>{i.title}</p>
+                    <p>{i.firstName}</p>
+                    <p>{i.lastName}</p>
+                    <p>{i.Email}</p>
                     <a
-                      href={"/UserTo/" + i.title.split(" ").join("_")}
-                      onClick={(e) => this.UserTo(e, i.title)}
+                      href={"/UserTo/" + i.Email}
+                      onClick={(e) => this.UserTo(e, i.Email)}
                       className="btn btn-primary"
                     >
                       View
