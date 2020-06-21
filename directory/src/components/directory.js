@@ -1,46 +1,55 @@
-import React, { Component } from 'react'
-import ReactSearchBox from 'react-search-box'
+import React, { Component } from "react";
 import { Card, Navbar, Button, Form, FormControl } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  BrowserRouter,
+} from "react-router-dom";
 
-
-
+const brow = require("../browse");
 
 export default class Users extends Component {
-  
-  constructor () {
-		super();
-    		this.state = {
-			data:[],
-			query: "",
-      name:'',
-			filteredData:[]
-		}
-    this.MyProfile = this.MyProfile.bind(this)
-	}
-
-  componentDidMount () {
-    fetch('https://reactnative.dev/movies.json')
-    .then((Response)=>Response.json())
-    .then((findresponse)=>{
-      this.setState({
-        data:findresponse.movies,
-        filteredData: findresponse.movies,
-      })
-    })
+  constructor() {
+    super();
+    this.state = {
+      data: [],
+      query: "",
+      name: "vamsi",
+      email: "nunnavamsikrishna1998@gmail.com",
+      LinkedIn: "https://www.linkedin.com/in/vamsikrishna-nunna/",
+      collage: "rvr&jc collage of engineering",
+      filteredData: [],
+    };
+    this.MyProfile = this.MyProfile.bind(this);
   }
 
-  handleChange = event => {
-  	const query = event.target.value;
-  	console.log(query)
-  	const mData = this.state.data.filter(val => String(val.title).toLowerCase().includes(query.toLowerCase()));
-  	console.log(mData)
-  	this.setState({
-  		filteredData: mData
-  	})
+  componentDidMount() {
+    // const result = brow.browse();
+    // console.log(`The result is: ${result}`);
+    // fetch(`${result}`)
+    fetch("https://reactnative.dev/movies.json")
+      .then((Response) => Response.json())
+      .then((findresponse) => {
+        this.setState({
+          data: findresponse.movies,
+          filteredData: findresponse.movies,
+        });
+      });
+  }
 
-  	
+  handleChange = (event) => {
+    const query = event.target.value;
+    console.log(query);
+    const mData = this.state.data.filter((val) =>
+      String(val.title).toLowerCase().includes(query.toLowerCase())
+    );
+    console.log(mData);
+    this.setState({
+      filteredData: mData,
+    });
   };
 
   UserTo = () => {
@@ -52,109 +61,223 @@ export default class Users extends Component {
 
     return (
       <div>
-          <div className="myStyle">{this.state.filteredData.map(i => 
+        <div className="myStyle">
+          {this.state.filteredData.map((i) => (
             <div>
               <h2>{i.title}</h2>
-            </div>  
-          )}</div> 
+            </div>
+          ))}
+        </div>
       </div>
-    )
-    }
+    );
+  };
 
   MyProfile = () => {
-      console.log(window.location.pathname)
+    console.log(window.location.pathname);
 
-      var link = ((window.location.pathname).split("/"));
-      console.log(link)
-      if (link.length > 2) {
-        var link1 = link[2].split("_").join(" ")
-        console.log(link1, "%%%%%%%%%%%%%")
-        const userdata = this.state.filteredData.filter(val => String(val.title) === link1);
-        return (
-      <div>
-          <div className="myStyle">{userdata.map(i => 
-            <div>
-              <h2>{i.title}</h2>
-            </div>  
-          )}</div> 
-      </div>
-    )
-      }  else {
-        console.log(window.location.pathname)
-        console.log(link, "In else")
-        return (
-          <div>
-            <Card>
-              <Card.Body>
-                <Link className="navbar-brand">Personal</Link>
-                <Link className="navbar-brand">Educational</Link>
-                <Link className="navbar-brand">Social</Link>
-              </Card.Body>  
-            </Card>
-            <h2>Your profile</h2>
+    var link = window.location.pathname.split("/");
+    console.log(link);
+    if (link.length > 2) {
+      var link1 = link[2].split("_").join(" ");
+      console.log(link1, "%%%%%%%%%%%%%");
+      const userdata = this.state.filteredData.filter(
+        (val) => String(val.title) === link1
+      );
+      return (
+        <div>
+          <div className="myStyle">
+            {userdata.map((i) => (
+              <div>
+                <h2>{i.title}</h2>
+              </div>
+            ))}
           </div>
-          )
-      }
-  }  
+        </div>
+      );
+    } else {
+      console.log(window.location.pathname);
+      console.log(link, "In else");
+      return (
+        <div>
+          <Router>
+            <Navbar className="navbar navbar-expand-lg navbar-dark bg-primary justify-content">
+              <Link className="navbar-brand" to="/Personal">
+                Personal
+              </Link>
+              <Link className="navbar-brand" to="/Educational">
+                Educational
+              </Link>
+              <Link className="navbar-brand" to="/Social">
+                Social
+              </Link>
+            </Navbar>
+            <h2>Your profile</h2>
+
+            <Switch>
+              <Route path="/Personal">{this.Personal}</Route>
+              <Route path="/Educational">{this.Educational}</Route>
+              <Route path="/Social">{this.Social}</Route>
+            </Switch>
+          </Router>
+        </div>
+      );
+    }
+  };
+
+  Personal = () => {
+    return (
+      <div>
+        <h2>Personal</h2>
+        <Button onClick={this.Edit}>Edit</Button>
+
+        <form style={{ textAlign: "center" }}>
+          <label>
+            name:
+            <input
+              type="text"
+              name="name"
+              value={this.state.name}
+              onChange={this.change}
+              style={{ padding: "10px", textAlign: "center" }}
+            />
+          </label>
+          <br></br>
+          <label>
+            email:
+            <input
+              type="text"
+              name="email"
+              value={this.state.email}
+              onChange={this.change}
+              style={{ padding: "10px", textAlign: "center" }}
+            />
+          </label>
+        </form>
+      </div>
+    );
+  };
+
+  Educational = () => {
+    return (
+      <div>
+        <h2>Educational</h2>
+        <Button onClick={this.Edit}>Edit</Button>
+
+        <form style={{ textAlign: "center" }}>
+          <label>
+            collage:
+            <input
+              type="text"
+              name="collage"
+              value={this.state.collage}
+              onChange={this.change}
+              style={{ padding: "10px", textAlign: "center" }}
+            />
+          </label>
+        </form>
+      </div>
+    );
+  };
+
+  change = (e) => {
+    console.log(e.target.value);
+
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  Social = () => {
+    return (
+      <div>
+        <h2>Social</h2>
+        <Button onClick={this.Edit}>Edit</Button>
+
+        <form style={{ textAlign: "center" }}>
+          <label>
+            LinkedIn:
+            <input
+              type="text"
+              name="LinkedIn"
+              value={this.state.LinkedIn}
+              onChange={this.change}
+              style={{ padding: "10px", textAlign: "center" }}
+            />
+          </label>
+        </form>
+      </div>
+    );
+  };
 
   List = () => {
     return (
       <div className="myStyle">
         <form>
           <input
-            type = "text"
+            type="text"
             placeholder="Search for..."
             value={this.data}
             onChange={this.handleChange}
           />
         </form>
-        <div className="myStyle">{this.state.filteredData.map(i => 
-          <div>
-            <Card style={{ width: '18rem', borderRadius: 10, borderColor: 'red', background: 'lightgrey'}}>
-          <Card.Body>
-              <Card.Title>
-                <p>{i.title}</p>
-                <a href = {"/UserTo/"+i.title.split(" ").join("_")} onClick={(e) => this.UserTo(e, i.title)} className = "btn btn-primary">View</a>
-              </Card.Title>
-          </Card.Body>
-        </Card>
-        <br />
-      </div>  
-          )}</div>
+        <div className="myStyle">
+          {this.state.filteredData.map((i) => (
+            <div>
+              <Card
+                style={{
+                  width: "18rem",
+                  borderRadius: 10,
+                  borderColor: "red",
+                  background: "lightgrey",
+                }}
+              >
+                <Card.Body>
+                  <Card.Title>
+                    <p>{i.title}</p>
+                    <a
+                      href={"/UserTo/" + i.title.split(" ").join("_")}
+                      onClick={(e) => this.UserTo(e, i.title)}
+                      className="btn btn-primary"
+                    >
+                      View
+                    </a>
+                  </Card.Title>
+                </Card.Body>
+              </Card>
+              <br />
+            </div>
+          ))}
+        </div>
       </div>
-    )  
-  }
-
+    );
+  };
 
   render() {
     return (
-
-    <div>
-
-      <Router>
-        <div>
-          <Navbar className ="navbar navbar-expand-lg navbar-dark bg-primary justify-content">
-                <Link className="navbar-brand" to="/">My Profile</Link>
-                <Link className="navbar-brand" to="/List">Users</Link>
-                <div className="collapse navbar-collapse justify-content-end">
-                <a className="btn btn-primary" type="submit" href = "/Profile">Logout</a>
-            </div>  
-
-          </Navbar>
-          <Switch>
-            <Route path="/List">
-              {this.List}
-            </Route>
-            <Route path="/">
-              {this.MyProfile}
-            </Route>
-            <Route path="/UserTo">
-              {this.UserTo}
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </div>  
+      <div>
+        <Router>
+          <div>
+            <Navbar className="navbar navbar-expand-lg navbar-dark bg-primary justify-content">
+              <Link className="navbar-brand" to="/">
+                My Profile
+              </Link>
+              <Link className="navbar-brand" to="/List">
+                Users
+              </Link>
+              <div className="collapse navbar-collapse justify-content-end">
+                <a className="btn btn-primary" type="submit" href="/Profile">
+                  Logout
+                </a>
+              </div>
+            </Navbar>
+            <Switch>
+              <Route path="/List">{this.List}</Route>
+              <Route path="/">{this.MyProfile}</Route>
+              <Route path="/UserTo">{this.UserTo}</Route>
+            </Switch>
+          </div>
+        </Router>
+      </div>
     );
   }
 }
