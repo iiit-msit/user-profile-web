@@ -18,7 +18,8 @@
     "react-placeholder-image": "^0.1.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-search-box": "^2.0.2"
+    "react-search-box": "^2.0.2",
+    "reactstrap": "^8.4.1"
   },
   "scripts": {
     "start": "react-scripts start",

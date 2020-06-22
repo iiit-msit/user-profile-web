@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Card, Navbar, Button, Form, FormControl } from "react-bootstrap";
+import { Card, Navbar } from "react-bootstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
@@ -42,7 +43,9 @@ export default class Users extends Component {
     const query = event.target.value;
     console.log(query, " in handle change++++++++++++");
     const mData = this.state.data.filter((val) =>
-      String(val.Email).toLowerCase().includes(query.toLowerCase())
+      String(val.Email + val.firstName + val.lastName)
+        .toLowerCase()
+        .includes(query.toLowerCase())
     );
     console.log(mData);
     this.setState({
@@ -61,12 +64,14 @@ export default class Users extends Component {
       const userdata = this.state.filteredData.filter(
         (val) => String(val.Email) === link1
       );
+      // this.state.filteredData = userdata;
       return (
         <div>
           <div className="myStyle">
             {userdata.map((i) => (
               <div>
-                <h2>{i.Email}</h2>
+                {/* <h2>{i.Email}</h2> */}
+                {this.personalForm(i)};
               </div>
             ))}
           </div>
@@ -75,7 +80,7 @@ export default class Users extends Component {
     } else {
       console.log(window.location.pathname);
       console.log(link, "In else");
-      const email = "hriday@gmail.com";
+      const email = "bunny@gmail.com";
       const userdata = this.state.filteredData.filter(
         (val) => String(val.Email) === email
       );
@@ -107,41 +112,177 @@ export default class Users extends Component {
     }
   };
 
+  personalForm(i) {
+    console.log(i);
+    return (
+      <form style={{ textAlign: "center" }}>
+        <label>
+          FirstName:
+          <input
+            type="text"
+            name="name"
+            value={i.firstName}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          LastName:
+          <input
+            type="text"
+            name="name"
+            value={i.lastName}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          Email:
+          <input
+            type="text"
+            name="email"
+            value={i.Email}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+
+        <label>
+          Password:
+          <input
+            type="text"
+            name="Password"
+            value={i.Password}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          gender:
+          <input
+            type="text"
+            name="gender"
+            value={i.gender}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          DOB:
+          <input
+            type="date"
+            name="DOB"
+            value={i.DOB}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          PhoneNumber:
+          <input
+            type="text"
+            name="PhoneNumber"
+            value={i.PhoneNumber}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          FatherName:
+          <input
+            type="text"
+            name="FatherName"
+            value={i.FatherName}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          FatherEmail:
+          <input
+            type="text"
+            name="FatherEmail"
+            value={i.FatherEmail}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          FatherPh:
+          <input
+            type="text"
+            name="FatherPh"
+            value={i.FatherPh}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          MotherName:
+          <input
+            type="text"
+            name="MotherName"
+            value={i.MotherName}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          MotherEmail:
+          <input
+            type="text"
+            name="MotherEmail"
+            value={i.MotherEmail}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          MotherPh:
+          <input
+            type="text"
+            name="MotherPh"
+            value={i.MotherPh}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          Address:
+          <input
+            type="text"
+            name="Address"
+            value={i.Address}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+      </form>
+    );
+  }
+
   Personal = () => {
     return (
       <div>
-        <h2>Personal</h2>
-        <Button onClick={this.Edit}>Edit</Button>
+        <h1>
+          <span className="font-weight-bold">Personal</span>
+        </h1>
         {this.state.filteredData.map((i) => (
-          <div>
-            <p>{i.firstName}</p>
-            <p>{i.lastName}</p>
-            <p>{i.Email}</p>
-          </div>
+          <div>{this.personalForm(i)};</div>
         ))}
-        {/* <form style={{ textAlign: "center" }}>
-          <label>
-            name:
-            <input
-              type="text"
-              name="name"
-              value={this.firstName}
-              onChange={this.change}
-              style={{ padding: "10px", textAlign: "center" }}
-            />
-          </label>
-          <br></br>
-          <label>
-            email:
-            <input
-              type="text"
-              name="email"
-              value={this.state.email}
-              onChange={this.change}
-              style={{ padding: "10px", textAlign: "center" }}
-            />
-          </label>
-        </form> */}
       </div>
     );
   };
@@ -149,27 +290,114 @@ export default class Users extends Component {
   Educational = () => {
     return (
       <div>
-        <h2>Educational</h2>
-        <Button onClick={this.Edit}>Edit</Button>
+        <h1>
+          <span className="font-weight-bold">Educational</span>
+        </h1>
         {this.state.filteredData.map((i) => (
           <div>
-            <p>{i.firstName}</p>
-            <p>{i.lastName}</p>
-            <p>{i.Email}</p>
+            <form style={{ textAlign: "center" }}>
+              <label>
+                GATRank:
+                <input
+                  type="text"
+                  name="GATRank"
+                  value={i.GATRank}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                GATHallNo:
+                <input
+                  type="text"
+                  name="GATHallNo"
+                  value={i.GATHallNo}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                BTechYear:
+                <input
+                  type="text"
+                  name="BTechYear"
+                  value={i.BTechYear}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                BTechCollege:
+                <input
+                  type="text"
+                  name="BTechCollege"
+                  value={i.BTechCollege}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                BTechUniversity:
+                <input
+                  type="text"
+                  name="BTechUniversity"
+                  value={i.BTechUniversity}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                BTechBranch:
+                <input
+                  type="text"
+                  name="BTechBranch"
+                  value={i.BTechBranch}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                BTechPercentage:
+                <input
+                  type="text"
+                  name="BTechPercentage"
+                  value={i.BTechPercentage}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                InterPercentage:
+                <input
+                  type="text"
+                  name="InterPercentage"
+                  value={i.InterPercentage}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                SSCPercentage:
+                <input
+                  type="text"
+                  name="SSCPercentage"
+                  value={i.SSCPercentage}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+            </form>
           </div>
         ))}
-        {/* <form style={{ textAlign: "center" }}>
-          <label>
-            collage:
-            <input
-              type="text"
-              name="collage"
-              value={this.state.collage}
-              onChange={this.change}
-              style={{ padding: "10px", textAlign: "center" }}
-            />
-          </label>
-        </form> */}
       </div>
     );
   };
@@ -185,21 +413,37 @@ export default class Users extends Component {
   Social = () => {
     return (
       <div>
-        <h2>Social</h2>
-        <Button onClick={this.Edit}>Edit</Button>
-
-        <form style={{ textAlign: "center" }}>
-          <label>
-            LinkedIn:
-            <input
-              type="text"
-              name="LinkedIn"
-              value={this.state.LinkedIn}
-              onChange={this.change}
-              style={{ padding: "10px", textAlign: "center" }}
-            />
-          </label>
-        </form>
+        <h1>
+          <span className="font-weight-bold">Social</span>
+        </h1>
+        {this.state.filteredData.map((i) => (
+          <div>
+            <form style={{ textAlign: "center" }}>
+              <label>
+                LinkedIn:
+                <input
+                  type="text"
+                  name="LinkedIn"
+                  value={i.LinkedIn}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+              <label>
+                GitHub:
+                <input
+                  type="text"
+                  name="GitHub"
+                  value={i.GitHub}
+                  onChange={this.change}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              <br></br>
+            </form>
+          </div>
+        ))}
       </div>
     );
   };
@@ -233,7 +477,7 @@ export default class Users extends Component {
                     <p>{i.Email}</p>
                     <a
                       href={"/UserTo/" + i.Email}
-                      onClick={(e) => this.UserTo(e, i.Email)}
+                      // onClick={(e) => this.UserTo(e, i.Email)}
                       className="btn btn-primary"
                     >
                       View
@@ -270,7 +514,7 @@ export default class Users extends Component {
             <Switch>
               <Route path="/List">{this.List}</Route>
               <Route path="/">{this.MyProfile}</Route>
-              <Route path="/UserTo">{this.UserTo}</Route>
+              {/* <Route path="/UserTo">{this.UserTo}</Route> */}
             </Switch>
           </div>
         </Router>
