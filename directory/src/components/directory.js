@@ -4,12 +4,19 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
+import { AlexaForBusiness } from "aws-sdk";
+
+import EditableLabel from 'react-inline-editing';
 
 // const brow = require("../browse");
 
 export default class Users extends Component {
   constructor() {
     super();
+
+    this._handleFocus = this._handleFocus.bind(this);
+    this._handleFocusOut = this._handleFocusOut.bind(this);
+
     this.state = {
       data: [],
       query: "",
@@ -18,9 +25,19 @@ export default class Users extends Component {
       // LinkedIn: "https://www.linkedin.com/in/vamsikrishna-nunna/",
       // collage: "rvr&jc collage of engineering",
       filteredData: [],
+      isInEditMode : false
     };
     this.MyProfile = this.MyProfile.bind(this);
   }
+
+  _handleFocus(text) {
+    console.log('Focused with text: ' + text);
+}
+
+_handleFocusOut(text) {
+    console.log('Left editor with text: ' + text);
+}
+
 
   componentDidMount() {
     var self = this;
@@ -38,6 +55,12 @@ export default class Users extends Component {
         console.log(error);
       });
   }
+
+  // updateChange(e) {
+  //   // this.setState({[e.target.name]: e.target.value});
+  //   this.e.target.name = e.target.value;
+  //   console.log(e.target.name, e.target.value )
+  // }
 
   handleChange = (event) => {
     const query = event.target.value;
@@ -80,7 +103,7 @@ export default class Users extends Component {
     } else {
       console.log(window.location.pathname);
       console.log(link, "In else");
-      const email = "bunny@gmail.com";
+      const email = "hridayathineni329@gmail.com";
       const userdata = this.state.filteredData.filter(
         (val) => String(val.Email) === email
       );
@@ -98,6 +121,11 @@ export default class Users extends Component {
               <Link className="navbar-brand" to="/Social">
                 Social
               </Link>
+              <div className="collapse navbar-collapse justify-content-end">
+              <Link className="navbar-brand" to="/edit">
+                Edit
+              </Link>
+              </div>
             </Navbar>
             <h2>Your profile</h2>
 
@@ -105,12 +133,18 @@ export default class Users extends Component {
               <Route path="/Personal">{this.Personal}</Route>
               <Route path="/Educational">{this.Educational}</Route>
               <Route path="/Social">{this.Social}</Route>
+              <Route path="/edit">{this.edit}</Route>
             </Switch>
           </Router>
         </div>
       );
     }
   };
+
+  
+
+
+
 
   personalForm(i) {
     console.log(i);
@@ -126,6 +160,7 @@ export default class Users extends Component {
             style={{ padding: "10px", textAlign: "center" }}
           />
         </label>
+
         <br></br>
         <label>
           LastName:
@@ -302,7 +337,6 @@ export default class Users extends Component {
                   type="text"
                   name="GATRank"
                   value={i.GATRank}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -313,7 +347,6 @@ export default class Users extends Component {
                   type="text"
                   name="GATHallNo"
                   value={i.GATHallNo}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -324,7 +357,6 @@ export default class Users extends Component {
                   type="text"
                   name="BTechYear"
                   value={i.BTechYear}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -335,7 +367,6 @@ export default class Users extends Component {
                   type="text"
                   name="BTechCollege"
                   value={i.BTechCollege}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -346,7 +377,6 @@ export default class Users extends Component {
                   type="text"
                   name="BTechUniversity"
                   value={i.BTechUniversity}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -357,7 +387,6 @@ export default class Users extends Component {
                   type="text"
                   name="BTechBranch"
                   value={i.BTechBranch}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -368,7 +397,6 @@ export default class Users extends Component {
                   type="text"
                   name="BTechPercentage"
                   value={i.BTechPercentage}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -379,7 +407,6 @@ export default class Users extends Component {
                   type="text"
                   name="InterPercentage"
                   value={i.InterPercentage}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -390,7 +417,6 @@ export default class Users extends Component {
                   type="text"
                   name="SSCPercentage"
                   value={i.SSCPercentage}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -402,13 +428,7 @@ export default class Users extends Component {
     );
   };
 
-  change = (e) => {
-    console.log(e.target.value);
 
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
 
   Social = () => {
     return (
@@ -425,7 +445,6 @@ export default class Users extends Component {
                   type="text"
                   name="LinkedIn"
                   value={i.LinkedIn}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
@@ -436,11 +455,170 @@ export default class Users extends Component {
                   type="text"
                   name="GitHub"
                   value={i.GitHub}
-                  onChange={this.change}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
               <br></br>
+            </form>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // state = {
+  //   isInEditMode : false
+  // }
+
+  // changeEdit = () => {
+  //   console.log("edit mode called")
+  //   this.setState({
+  //     isInEditMode : !this.state.isInEditMode
+  //   })
+  // }
+
+
+  update = () => {
+    console.log(this.filteredData)
+    // this.setState({
+
+    // })
+    // // axios.post("http://localhost:3001/update", {})
+    // console.log(this.state.value , "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+  }
+
+  
+
+  edit = () => {
+    return (
+      <div>
+        <h1>
+          <span className="font-weight-bold">You can edit only these fields</span>
+        </h1>
+        {this.state.filteredData.map((i) => (
+          <div>
+            <form style={{ textAlign: "center" }}>
+
+
+
+              <div> 
+
+
+
+                <label>
+                      PhoneNumber:
+                      <EditableLabel
+                      text={i.PhoneNumber}
+                      onFocus={this._handleFocus}
+                      onFocusOut={this._handleFocusOut}
+               />
+</label>
+              </div>
+
+
+              <div>              
+                <label>
+                      FatherPh:<EditableLabel
+                      text={i.FatherPh}
+                      onFocus={this._handleFocus}
+                      onFocusOut={this._handleFocusOut}
+                />
+               </label>
+
+              </div>
+              <div>              
+                <label>
+                      MotherPh:<EditableLabel
+                      text={i.MotherPh}
+                      onFocus={this._handleFocus}
+                      onFocusOut={this._handleFocusOut}
+                />
+               </label>
+
+              </div>
+              <div>              
+                <label>
+                      LinkedIn:<EditableLabel
+                      text={i.LinkedIn}
+                      onFocus={this._handleFocus}
+                      onFocusOut={this._handleFocusOut}
+                />
+               </label>
+
+              </div>
+
+              <div>              
+                <label>
+                      GitHub:<EditableLabel
+                      text={i.GitHub}
+                      onFocus={this._handleFocus}
+                      onFocusOut={this._handleFocusOut}
+                />
+               </label>
+
+              </div>
+              <br></br>
+
+              <button onClick = {this.update}>Save</button>
+
+
+              {/* <div onDoubleClick = {this.changeEdit}>
+              <label>
+                FatherPh:
+                <input
+                  type="text"
+                  name="FatherPh"
+                  defaultValue={i.FatherPh}
+                  // value={i.FatherPh}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div>
+              <br></br>
+              <div onDoubleClick = {this.changeEdit}>
+              <label>
+                MotherPh:
+                <input
+                  type="text"
+                  name="MotherPh"
+                  defaultValue={i.MotherPh}
+                  // value={i.MotherPh}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div>
+              <br></br>
+
+              <div onDoubleClick = {this.changeEdit}>
+              <label>
+                LinkedIn:
+                <input
+                  type="text"
+                  name="LinkedIn"
+                  defaultValue={i.LinkedIn}
+                  // value={i.LinkedIn}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div>
+              <br></br>
+
+              <div onDoubleClick = {this.changeEdit}>
+              <label>
+                GitHub:
+                <input
+                  type="text"
+                  name="GitHub"
+                  defaultValue={i.GitHub}
+                  // value={i.GitHub}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div>
+              <br></br> */}
+
+
+
             </form>
           </div>
         ))}

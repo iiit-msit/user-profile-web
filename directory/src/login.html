@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Google Auth Demo</title>
+  <meta name="google-signin-client_id" content="431699204705-3a34hp1kd4v6942adchvn6ot0lmm9lu9.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+
+  <h1>Welcome to the MSIT User Profile</h1>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+
+  <!-- <div id="content"></div> -->
+  <!-- <button onclick="signOut()">signOut</button> -->
+</body>
+
+<script>
+  function onSignIn(googleUser) {
+    // get user profile information
+    const profile = googleUser.getBasicProfile();
+    // console.log("Profile")
+    // console.log('User is' +JSON.stringify(googleUser.getBasicProfile()));
+
+    const email = profile.getEmail();
+    console.log(email)
+
+  }
+
+  function signOut() {
+
+    gapi.auth2.getAuthInstance().signOut().then(function() {
+      console.log('user signed out');
+      document.getElementById("content").innerHTML = "";
+
+    })
+  }
+
+</script>
+
+</html>

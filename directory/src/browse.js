@@ -53,9 +53,15 @@ app.get("/getadd", function (req, res) {
   });
 });
 
+app.get('/update',function(req,res) {
+  console.log(req.body);
+  res.status(200).send({'message':'Data recived'})
+})
+
 app.listen(PORT, function () {
   console.log("server runing on localhost:" + PORT);
 });
+
 
 app.use("/getadd", router);
 module.exports = router;
