@@ -71,7 +71,7 @@ export default class Users extends Component {
             {userdata.map((i) => (
               <div>
                 {/* <h2>{i.Email}</h2> */}
-                {this.personalForm(i)};
+                {this.SampleFunction(i)};
               </div>
             ))}
           </div>
@@ -80,7 +80,7 @@ export default class Users extends Component {
     } else {
       console.log(window.location.pathname);
       console.log(link, "In else");
-      const email = "bunny@gmail.com";
+      const email = "nunnavamsikrishna1998@msitprogram.net";
       const userdata = this.state.filteredData.filter(
         (val) => String(val.Email) === email
       );
@@ -112,7 +112,7 @@ export default class Users extends Component {
     }
   };
 
-  personalForm(i) {
+  SampleFunction(i) {
     console.log(i);
     return (
       <form style={{ textAlign: "center" }}>
@@ -156,6 +156,17 @@ export default class Users extends Component {
             type="text"
             name="Password"
             value={i.Password}
+            onChange={this.change}
+            style={{ padding: "10px", textAlign: "center" }}
+          />
+        </label>
+        <br></br>
+        <label>
+          RollNO:
+          <input
+            type="text"
+            name="RollNO"
+            value={i.RollNO}
             onChange={this.change}
             style={{ padding: "10px", textAlign: "center" }}
           />
@@ -281,7 +292,7 @@ export default class Users extends Component {
           <span className="font-weight-bold">Personal</span>
         </h1>
         {this.state.filteredData.map((i) => (
-          <div>{this.personalForm(i)};</div>
+          <div>{this.SampleFunction(i)};</div>
         ))}
       </div>
     );
