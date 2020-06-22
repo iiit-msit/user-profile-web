@@ -78,6 +78,21 @@ export default class Users extends Component {
         </div>
       );
     } else {
+      var self = this;
+      axios
+        .get("http://localhost:3011/google")
+        .then(function (response) {
+          console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
+          // self.setState({
+          //   data: response.data.Items,
+          //   filteredData: response.data.Items,
+          // });
+          const e = response.data;
+          console.log(e, "******************");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       console.log(window.location.pathname);
       console.log(link, "In else");
       const email = "nunnavamsikrishna1998@msitprogram.net";
