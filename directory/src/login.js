@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
-// // const cors = require("cors");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 require("./passport-setup");
 
-// app.use(cors());
+app.use(cors());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,7 +45,7 @@ app.get(
   isLoggedIn,
   (req, res) =>
     // qwerty = req.user;
-    // console.log(qwerty)
+    // console.log(res)
     res.send(req.user.emails[0].value)
   //   res.send(req.user.emails[value])
 );

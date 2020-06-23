@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
+import { GoogleLogin } from "react-google-login";
 
 // const brow = require("../browse");
 
@@ -78,21 +79,21 @@ export default class Users extends Component {
         </div>
       );
     } else {
-      var self = this;
-      axios
-        .get("http://localhost:3011/google")
-        .then(function (response) {
-          console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
-          // self.setState({
-          //   data: response.data.Items,
-          //   filteredData: response.data.Items,
-          // });
-          const e = response.data;
-          console.log(e, "******************");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      // var self = this;
+      // axios
+      //   .get("http://localhost:3011/google")
+      //   .then(function (response) {
+      //     console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
+      //     // self.setState({
+      //     //   data: response.data.Items,
+      //     //   filteredData: response.data.Items,
+      //     // });
+      //     // var e = response.data;
+      //     console.log(response.data, "******************");
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
       console.log(window.location.pathname);
       console.log(link, "In else");
       const email = "nunnavamsikrishna1998@msitprogram.net";
@@ -475,6 +476,20 @@ export default class Users extends Component {
   };
 
   List = () => {
+    // var self = this;
+    // axios
+    //   .get("http://localhost:3001/getadd")
+    //   .then(function (response) {
+    //     console.log(response.data.Items, "        qwerty");
+    //     self.setState({
+    //       data: response.data.Items,
+    //       filteredData: response.data.Items,
+    //     });
+    //     console.log(self.state.data, "   ghjkl");
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
     return (
       <div className="myStyle">
         <form>
@@ -518,6 +533,11 @@ export default class Users extends Component {
       </div>
     );
   };
+
+  // responseGoogle = () => {
+  //   console.log("in response google");
+
+  // };
 
   render() {
     return (

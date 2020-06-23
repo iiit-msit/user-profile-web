@@ -16,6 +16,10 @@ app.get("/", function (req, res) {
   res.send("hello from server");
 });
 
+app.get("/email", function (req, res) {
+  res.send("hello from email server");
+});
+
 var AWS = require("aws-sdk");
 let awsConfig = {
   region: "us-east-2",
@@ -57,5 +61,10 @@ app.listen(PORT, function () {
   console.log("server runing on localhost:" + PORT);
 });
 
+// app.listen(PORT, function () {
+//   console.log("server runing on localhost:" + PORT);
+// });
+
 app.use("/getadd", router);
+app.use("/email", router);
 module.exports = router;
