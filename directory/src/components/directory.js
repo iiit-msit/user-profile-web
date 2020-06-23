@@ -79,24 +79,24 @@ export default class Users extends Component {
         </div>
       );
     } else {
-      // var self = this;
-      // axios
-      //   .get("http://localhost:3011/google")
-      //   .then(function (response) {
-      //     console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
-      //     // self.setState({
-      //     //   data: response.data.Items,
-      //     //   filteredData: response.data.Items,
-      //     // });
-      //     // var e = response.data;
-      //     console.log(response.data, "******************");
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-      console.log(window.location.pathname);
+      var self = this;
+      axios
+        .get("http://localhost:3001/sendemail")
+        .then(function (response) {
+          // console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
+          self.setState({
+            Email: response.data,
+          });
+          console.log(self.Email, "******************");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      // console.log(window.location.pathname);
       console.log(link, "In else");
-      const email = "nunnavamsikrishna1998@msitprogram.net";
+      const email = this.state.Email;
+      console.log(email, "pppppppppppppppppppppppppppppp");
+
       const userdata = this.state.filteredData.filter(
         (val) => String(val.Email) === email
       );

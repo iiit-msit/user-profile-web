@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
+var email = "";
 const PORT = 3001;
 const app = express();
 const router = express.Router();
@@ -16,8 +16,15 @@ app.get("/", function (req, res) {
   res.send("hello from server");
 });
 
-app.get("/email", function (req, res) {
+app.post("/email", function (req, res) {
+  email = req.body["emaildata"];
+  console.log(req.body["emaildata"]);
   res.send("hello from email server");
+});
+
+app.get("/sendemail", function (req, res) {
+  console.log("ochindiiiii *****", email);
+  res.send(email);
 });
 
 var AWS = require("aws-sdk");
@@ -65,6 +72,6 @@ app.listen(PORT, function () {
 //   console.log("server runing on localhost:" + PORT);
 // });
 
-app.use("/getadd", router);
-app.use("/email", router);
+// app.use("/getadd", router);
+// app.use("/email", router);
 module.exports = router;

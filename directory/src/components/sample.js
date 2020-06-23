@@ -8,8 +8,8 @@ import { GoogleLogin } from "react-google-login";
 
 export default class Sample extends Component {
   responseGoogle = (response) => {
-    console.log(response);
-    const emaildata = response;
+    console.log(response.Qt.Au);
+    const emaildata = response.Qt.Au;
     axios
       .post(`http://localhost:3001/email`, { emaildata })
       .then((response) => {
