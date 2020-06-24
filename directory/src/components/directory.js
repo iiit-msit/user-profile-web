@@ -12,6 +12,7 @@ export default class Users extends Component {
   constructor() {
     super();
     this.state = {
+      count: 0,
       data: [],
       query: "",
       firstName: "",
@@ -24,20 +25,6 @@ export default class Users extends Component {
   }
 
   componentDidMount() {
-    // var self = this;
-    // axios
-    //   .get("http://localhost:3001/getadd")
-    //   .then(function (response) {
-    //     console.log(response.data.Items, "        qwerty");
-    //     self.setState({
-    //       data: response.data.Items,
-    //       filteredData: response.data.Items,
-    //     });
-    //     console.log(self.state.data, "   ghjkl");
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
     var self = this;
     axios
       .get("http://localhost:3001/getadd")
@@ -70,77 +57,42 @@ export default class Users extends Component {
   };
 
   MyProfile = () => {
-    console.log(window.location.pathname);
-
-    var link = window.location.pathname.split("/");
-    console.log(link);
-    if (link.length > 2) {
-      var link1 = link[2];
-      console.log(link1, "%%%%%%%%%%%%%");
-      const userdata = this.state.filteredData.filter(
-        (val) => String(val.Email) === link1
-      );
-      // this.state.filteredData = userdata;
-      return (
-        <div>
-          <div className="myStyle">
-            {userdata.map((i) => (
-              <div>
-                {/* <h2>{i.Email}</h2> */}
-                {this.SampleFunction(i)};
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    } else {
-      // var self = this;
-      // axios
-      //   .get("http://localhost:3001/sendemail")
-      //   .then(function (response) {
-      //     // console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
-      //     self.setState({
-      //       Email: response.data,
-      //     });
-      //     console.log(self.Email, "******************");
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-      // console.log(window.location.pathname);
-      console.log(link, "In else");
-      const email = this.state.Email;
-      console.log(email, "pppppppppppppppppppppppppppppp");
-
-      const userdata = this.state.filteredData.filter(
-        (val) => String(val.Email) === email
-      );
-      this.state.filteredData = userdata;
-      return (
-        <div>
-          <Router>
-            <Navbar className="navbar navbar-expand-lg navbar-dark bg-primary justify-content">
-              <Link className="navbar-brand" to="/Personal">
-                Personal
-              </Link>
-              <Link className="navbar-brand" to="/Educational">
-                Educational
-              </Link>
-              <Link className="navbar-brand" to="/Social">
-                Social
-              </Link>
-            </Navbar>
-            <h2>Your profile</h2>
-
-            <Switch>
-              <Route path="/Personal">{this.Personal}</Route>
-              <Route path="/Educational">{this.Educational}</Route>
-              <Route path="/Social">{this.Social}</Route>
-            </Switch>
-          </Router>
-        </div>
-      );
+    this.state.count += 1;
+    if (this.state.count === 1) {
+      this.componentDidMount();
     }
+    const email = this.state.Email;
+    console.log(email, "pppppppppppppppppppppppppppppp");
+
+    const userdata = this.state.filteredData.filter(
+      (val) => String(val.Email) === email
+    );
+    this.state.filteredData = userdata;
+    return (
+      <div>
+        <Router>
+          <Navbar className="navbar navbar-expand-lg navbar-dark bg-primary justify-content">
+            <Link className="navbar-brand" to="/">
+              Personal
+            </Link>
+            <Link className="navbar-brand" to="/Educational">
+              Educational
+            </Link>
+            <Link className="navbar-brand" to="/Social">
+              Social
+            </Link>
+          </Navbar>
+          <h2>Your profile</h2>
+
+          <Switch>
+            <Route path="/Educational">{this.Educational}</Route>
+            <Route path="/Social">{this.Social}</Route>
+            <Route path="/">{this.Personal}</Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+    // }
   };
 
   SampleFunction(i) {
@@ -491,20 +443,6 @@ export default class Users extends Component {
   };
 
   List = () => {
-    // var self = this;
-    // axios
-    //   .get("http://localhost:3001/getadd")
-    //   .then(function (response) {
-    //     console.log(response.data.Items, "        qwerty");
-    //     self.setState({
-    //       data: response.data.Items,
-    //       filteredData: response.data.Items,
-    //     });
-    //     console.log(self.state.data, "   ghjkl");
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
     return (
       <div className="myStyle">
         <form>
@@ -516,7 +454,7 @@ export default class Users extends Component {
           />
         </form>
         <div className="myStyle">
-          {this.state.filteredData.map((i) => (
+          {this.state.data.map((i) => (
             <div>
               <Card
                 style={{
@@ -549,10 +487,33 @@ export default class Users extends Component {
     );
   };
 
-  // responseGoogle = () => {
-  //   console.log("in response google");
+  UserTo = () => {
+    console.log("in response google");
+    console.log(window.location.pathname);
 
-  // };
+    var link = window.location.pathname.split("/");
+    console.log(link);
+    if (link.length > 2) {
+      var link1 = link[2];
+      console.log(link1, "%%%%%%%%%%%%%");
+      const userdata = this.state.filteredData.filter(
+        (val) => String(val.Email) === link1
+      );
+      this.state.filteredData = userdata;
+      return (
+        <div>
+          <div className="myStyle">
+            {userdata.map((i) => (
+              <div>
+                {/* <h2>{i.Email}</h2> */}
+                {this.SampleFunction(i)};
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+  };
 
   render() {
     return (
@@ -560,7 +521,10 @@ export default class Users extends Component {
         <Router>
           <div>
             <Navbar className="navbar navbar-expand-lg navbar-dark bg-primary justify-content">
-              <Link className="navbar-brand" to="/">
+              {/* <Link className="navbar-brand" to="/">
+                My Profile
+              </Link> */}
+              <Link className="navbar-brand" to="/MyProfile">
                 My Profile
               </Link>
               <Link className="navbar-brand" to="/List">
@@ -574,8 +538,8 @@ export default class Users extends Component {
             </Navbar>
             <Switch>
               <Route path="/List">{this.List}</Route>
-              <Route path="/">{this.MyProfile}</Route>
-              {/* <Route path="/UserTo">{this.UserTo}</Route> */}
+              <Route path="/MyProfile">{this.MyProfile}</Route>
+              <Route path="/">{this.UserTo}</Route>
             </Switch>
           </div>
         </Router>
