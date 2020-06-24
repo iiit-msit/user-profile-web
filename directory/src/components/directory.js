@@ -24,14 +24,29 @@ export default class Users extends Component {
   }
 
   componentDidMount() {
+    // var self = this;
+    // axios
+    //   .get("http://localhost:3001/getadd")
+    //   .then(function (response) {
+    //     console.log(response.data.Items, "        qwerty");
+    //     self.setState({
+    //       data: response.data.Items,
+    //       filteredData: response.data.Items,
+    //     });
+    //     console.log(self.state.data, "   ghjkl");
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
     var self = this;
     axios
       .get("http://localhost:3001/getadd")
       .then(function (response) {
-        console.log(response.data.Items, "        qwerty");
+        console.log(response, "        qwerty");
         self.setState({
-          data: response.data.Items,
-          filteredData: response.data.Items,
+          data: response.data["data"].Items,
+          filteredData: response.data["data"].Items,
+          Email: response.data["email"],
         });
         console.log(self.state.data, "   ghjkl");
       })
@@ -79,19 +94,19 @@ export default class Users extends Component {
         </div>
       );
     } else {
-      var self = this;
-      axios
-        .get("http://localhost:3001/sendemail")
-        .then(function (response) {
-          // console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
-          self.setState({
-            Email: response.data,
-          });
-          console.log(self.Email, "******************");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      // var self = this;
+      // axios
+      //   .get("http://localhost:3001/sendemail")
+      //   .then(function (response) {
+      //     // console.log(response.data, "@@@@@@@@@@@@@@@@@@@@@@@@@");
+      //     self.setState({
+      //       Email: response.data,
+      //     });
+      //     console.log(self.Email, "******************");
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
       // console.log(window.location.pathname);
       console.log(link, "In else");
       const email = this.state.Email;

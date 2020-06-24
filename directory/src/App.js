@@ -18,10 +18,6 @@ import Directory from "./components/directory";
 
 function App() {
   return <Directory />;
-  // return (
-
-  // );
-  // return <button onClick={sayHello}>Click me!</button>;
 }
 
 export default App;

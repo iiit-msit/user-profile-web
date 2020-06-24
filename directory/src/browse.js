@@ -22,10 +22,10 @@ app.post("/email", function (req, res) {
   res.send("hello from email server");
 });
 
-app.get("/sendemail", function (req, res) {
-  console.log("ochindiiiii *****", email);
-  res.send(email);
-});
+// app.get("/sendemail", function (req, res) {
+//   console.log("ochindiiiii *****", email);
+//   res.send(email);
+// });
 
 var AWS = require("aws-sdk");
 let awsConfig = {
@@ -55,9 +55,10 @@ app.get("/getadd", function (req, res) {
         JSON.stringify(err, null, 2)
       );
     } else {
-      var input = data;
-      console.log(input);
-      res.send(data);
+      // var input = data;
+      var input = { email: email, data: data };
+      // console.log(input);
+      res.send(input);
       //  console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
       //   return "hnonjgf";
     }
