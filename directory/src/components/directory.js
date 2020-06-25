@@ -500,17 +500,7 @@ export default class Users extends Component {
     console.log("update called")
     // console.log(this.state.gender,"+++++++++++++++++++++++++")
     // console.log(this.state.MotherPh,"+++++++++++++++++++++++++")
-    
-    // const edited = {
-    //   firstName: this.state.firstName,lastName:this.state.lastName,gender:this.state.gender,DOB:this.state.DOB,Email:this.state.Email,Password:this.state.Password,PhoneNumber:this.state.PhoneNumber,
-    //   FatherName:this.state.FatherName, FatherEmail:this.state.FatherEmail,FatherPh:this.state.FatherPh,MotherName:this.state.MotherName,MotherEmail:this.state.MotherEmail,
-    //   MotherPh:this.state.MotherPh,Address:this.state.Address,GaurdianPh:this.state.GaurdianPh,Aadhar:this.state.Aadhar,Status:this.state.Status,GATRank:this.state.GATRank,GATHallNo:this.state.GATHallNo,RollNO:this.state.RollNO,
-    //   SSCPercentage: this.state.SSCPercentage, InterPercentage: this.state.InterPercentage, BTechPercentage:this.state.BTechPercentage,BTechBranch:this.state.BTechBranch,BTechYear:this.state.BTechYear, BTechUniversity:this.state.BTechUniversity,BTechCollege:this.state.BTechCollege,
-    //   LinkedIn: this.state.LinkedIn, GitHub: this.state.GitHub
-    // }
-
-    // console.log(this.state.fields["PhoneNumber"],this.state.fields["firstName"], "update details")
-    this.sleep(20000);
+    // this.sleep(20000);
 
     const userr = this.state.fields[0];
     axios.post(`http://localhost:3001/add`, { userr })
@@ -533,74 +523,7 @@ export default class Users extends Component {
           <span className="font-weight-bold">You can edit only these fields</span>
         </h1>
         {this.state.filteredData.map((i) => (
-          // <div>
-            {/* <form style={{ textAlign: "center" }}>
 
-
-
-              <div> 
-              <label>
-                      PhoneNumber:
-                      <EditableLabel
-                      text={i.PhoneNumber}
-                      name = "PhoneNumber"
-                      value = {i.PhoneNumber}
-                      onFocus={this._handleFocus}
-                      onFocusOut={this._handleFocusOut}
-               />
-              </label>
-              </div>
-
-
-              <div>              
-                <label>
-                      FatherPh:<EditableLabel
-                      text={i.FatherPh}
-                      name = "FatherPh"
-                      value = {i.FatherPh}
-                      onFocus={this._handleFocus}
-                      onFocusOut={this._handleFocusOut}
-                />
-               </label>
-
-              </div>
-              <div>              
-                <label>
-                      MotherPh:<EditableLabel
-                      text={i.MotherPh}
-                      onFocus={this._handleFocus}
-                      onFocusOut={this._handleFocusOut}
-                />
-               </label>
-
-              </div>
-              <div>              
-                <label>
-                      LinkedIn:<EditableLabel
-                      text={i.LinkedIn}
-                      onFocus={this._handleFocus}
-                      onFocusOut={this._handleFocusOut}
-                />
-               </label>
-
-              </div>
-
-              <div>              
-                <label>
-                      GitHub:<EditableLabel
-                      text={i.GitHub}
-                      onFocus={this._handleFocus}
-                      onFocusOut={this._handleFocusOut}
-                />
-               </label>
-
-              </div> 
-              <br></br>
-
-              <button type="submit" onClick = {this.update}>Save</button> 
-              
-              </form>  */}
-            /* </div> */,
             <div>
               <form onSubmit={this.update} style={{ textAlign: "center" }}> 
                <div onDoubleClick = {this.changeEdit}>
@@ -629,6 +552,46 @@ export default class Users extends Component {
                 />
               </label>
               </div>  
+
+              <div onDoubleClick = {this.changeEdit}>
+              <label>
+                FatherPh:
+                <input
+                  type="text"
+                  name="FatherPh"
+                  onChange={this._handleFocusOut}
+                  defaultValue={i.FatherPh}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div>  
+
+              <div onDoubleClick = {this.changeEdit}>
+              <label>
+                LinkedIn:
+                <input
+                  type="text"
+                  name="LinkedIn"
+                  onChange={this._handleFocusOut}
+                  defaultValue={i.LinkedIn}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div>  
+
+              <div onDoubleClick = {this.changeEdit}>
+              <label>
+                GitHub:
+                <input
+                  type="text"
+                  name="GitHub"
+                  onChange={this._handleFocusOut}
+                  defaultValue={i.GitHub}
+                  style={{ padding: "10px", textAlign: "center" }}
+                />
+              </label>
+              </div> 
+              <br></br> 
               <Button type="submit">Save</Button>
               
             </form>  
