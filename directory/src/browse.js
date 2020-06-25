@@ -45,7 +45,7 @@ app.get("/getadd", function (req, res) {
       );
     } else {
       var input = data;
-      console.log(input);
+      // console.log(input);
       res.send(data);
       //  console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
       //   return "hnonjgf";
@@ -57,6 +57,25 @@ app.get('/update',function(req,res) {
   console.log(req.body);
   res.status(200).send({'message':'Data recived'})
 })
+
+app.post('/add',function(req,res){
+  console.log(req)
+  var input = req.body.userr;
+  // console.log(input)
+  var params = {
+      TableName: "profiles",
+      Item:  input
+  };
+  docClient.put(params, function (err, data) {
+
+      if (err) {
+          console.log("profiles::save::error - " + JSON.stringify(err, null, 2));                      
+      } else {
+          console.log("profiles::save::success" );                      
+      }
+  });
+})
+
 
 app.listen(PORT, function () {
   console.log("server runing on localhost:" + PORT);

@@ -25,18 +25,19 @@ export default class Users extends Component {
       // LinkedIn: "https://www.linkedin.com/in/vamsikrishna-nunna/",
       // collage: "rvr&jc collage of engineering",
       filteredData: [],
-      isInEditMode : false
+      isInEditMode : false,
+      fields : {}
     };
     this.MyProfile = this.MyProfile.bind(this);
+
   }
+
+
 
   _handleFocus(text) {
     console.log('Focused with text: ' + text);
 }
 
-_handleFocusOut(text) {
-    console.log('Left editor with text: ' + text);
-}
 
 
   componentDidMount() {
@@ -87,7 +88,7 @@ _handleFocusOut(text) {
       const userdata = this.state.filteredData.filter(
         (val) => String(val.Email) === link1
       );
-      // this.state.filteredData = userdata;
+      this.state.filteredData = userdata;
       return (
         <div>
           <div className="myStyle">
@@ -104,7 +105,7 @@ _handleFocusOut(text) {
       console.log(window.location.pathname);
       console.log(link, "In else");
       const email = "hridayathineni329@gmail.com";
-      const userdata = this.state.filteredData.filter(
+      const userdata = this.state.data.filter(
         (val) => String(val.Email) === email
       );
       this.state.filteredData = userdata;
@@ -477,42 +478,77 @@ _handleFocusOut(text) {
   //   })
   // }
 
+   sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
+
+  _handleFocusOut(e) {
+    // console.log(this.state.fields)
+
+    // console.log(this.state.fields[0].firstName)
+    // this.setState({fields[e.target.name]: e.target.value});
+    this.state.fields[0][e.target.name] = e.target.value;
+    // console.log(this.state.fields)
+    // console.log('Left editor with text: ' + e.target.value);
+}
 
   update = () => {
-    console.log(this.filteredData)
-    // this.setState({
+    console.log("update called")
+    // console.log(this.state.gender,"+++++++++++++++++++++++++")
+    // console.log(this.state.MotherPh,"+++++++++++++++++++++++++")
+    
+    // const edited = {
+    //   firstName: this.state.firstName,lastName:this.state.lastName,gender:this.state.gender,DOB:this.state.DOB,Email:this.state.Email,Password:this.state.Password,PhoneNumber:this.state.PhoneNumber,
+    //   FatherName:this.state.FatherName, FatherEmail:this.state.FatherEmail,FatherPh:this.state.FatherPh,MotherName:this.state.MotherName,MotherEmail:this.state.MotherEmail,
+    //   MotherPh:this.state.MotherPh,Address:this.state.Address,GaurdianPh:this.state.GaurdianPh,Aadhar:this.state.Aadhar,Status:this.state.Status,GATRank:this.state.GATRank,GATHallNo:this.state.GATHallNo,RollNO:this.state.RollNO,
+    //   SSCPercentage: this.state.SSCPercentage, InterPercentage: this.state.InterPercentage, BTechPercentage:this.state.BTechPercentage,BTechBranch:this.state.BTechBranch,BTechYear:this.state.BTechYear, BTechUniversity:this.state.BTechUniversity,BTechCollege:this.state.BTechCollege,
+    //   LinkedIn: this.state.LinkedIn, GitHub: this.state.GitHub
+    // }
 
-    // })
-    // // axios.post("http://localhost:3001/update", {})
-    // console.log(this.state.value , "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    // console.log(this.state.fields["PhoneNumber"],this.state.fields["firstName"], "update details")
+    this.sleep(20000);
+
+    const userr = this.state.fields[0];
+    axios.post(`http://localhost:3001/add`, { userr })
+      .then(response => { 
+        console.log(response)
+        })
+      .catch(error => {
+          console.log(error.response)
+      });  
   }
 
   
 
   edit = () => {
+    this.state.fields = this.state.filteredData;
+    // console.log(this.state.fields, "ffffffffffffffffffffffffffffffffffffffffffffffffff")
     return (
       <div>
         <h1>
           <span className="font-weight-bold">You can edit only these fields</span>
         </h1>
         {this.state.filteredData.map((i) => (
-          <div>
-            <form style={{ textAlign: "center" }}>
+          // <div>
+            {/* <form style={{ textAlign: "center" }}>
 
 
 
               <div> 
-
-
-
-                <label>
+              <label>
                       PhoneNumber:
                       <EditableLabel
                       text={i.PhoneNumber}
+                      name = "PhoneNumber"
+                      value = {i.PhoneNumber}
                       onFocus={this._handleFocus}
                       onFocusOut={this._handleFocusOut}
                />
-</label>
+              </label>
               </div>
 
 
@@ -520,6 +556,8 @@ _handleFocusOut(text) {
                 <label>
                       FatherPh:<EditableLabel
                       text={i.FatherPh}
+                      name = "FatherPh"
+                      value = {i.FatherPh}
                       onFocus={this._handleFocus}
                       onFocusOut={this._handleFocusOut}
                 />
@@ -556,71 +594,46 @@ _handleFocusOut(text) {
                 />
                </label>
 
-              </div>
+              </div> 
               <br></br>
 
-              <button onClick = {this.update}>Save</button>
-
-
-              {/* <div onDoubleClick = {this.changeEdit}>
+              <button type="submit" onClick = {this.update}>Save</button> 
+              
+              </form>  */}
+            /* </div> */,
+            <div>
+              <form onSubmit={this.update} style={{ textAlign: "center" }}> 
+               <div onDoubleClick = {this.changeEdit}>
               <label>
-                FatherPh:
+                PhoneNumber:
                 <input
                   type="text"
-                  name="FatherPh"
-                  defaultValue={i.FatherPh}
-                  // value={i.FatherPh}
+                  name="PhoneNumber"
+                  onChange={this._handleFocusOut}
+                  defaultValue={i.PhoneNumber}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
+               
               </label>
-              </div>
-              <br></br>
+              </div> 
+ 
               <div onDoubleClick = {this.changeEdit}>
               <label>
                 MotherPh:
                 <input
                   type="text"
                   name="MotherPh"
+                  onChange={this._handleFocusOut}
                   defaultValue={i.MotherPh}
-                  // value={i.MotherPh}
                   style={{ padding: "10px", textAlign: "center" }}
                 />
               </label>
-              </div>
-              <br></br>
-
-              <div onDoubleClick = {this.changeEdit}>
-              <label>
-                LinkedIn:
-                <input
-                  type="text"
-                  name="LinkedIn"
-                  defaultValue={i.LinkedIn}
-                  // value={i.LinkedIn}
-                  style={{ padding: "10px", textAlign: "center" }}
-                />
-              </label>
-              </div>
-              <br></br>
-
-              <div onDoubleClick = {this.changeEdit}>
-              <label>
-                GitHub:
-                <input
-                  type="text"
-                  name="GitHub"
-                  defaultValue={i.GitHub}
-                  // value={i.GitHub}
-                  style={{ padding: "10px", textAlign: "center" }}
-                />
-              </label>
-              </div>
-              <br></br> */}
-
-
-
-            </form>
-          </div>
+              </div>  
+              <Button type="submit">Save</Button>
+              
+            </form>  
+            
+            </div>
         ))}
       </div>
     );
@@ -638,7 +651,7 @@ _handleFocusOut(text) {
           />
         </form>
         <div className="myStyle">
-          {this.state.filteredData.map((i) => (
+          {this.state.data.map((i) => (
             <div>
               <Card
                 style={{
